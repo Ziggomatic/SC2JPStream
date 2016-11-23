@@ -1,0 +1,48 @@
+# -*- coding: utf-8 -*-
+
+
+import json
+import urllib.request
+import tweepy
+import time
+from datetime import datetime
+from pytz import timezone
+
+twitch_api = 'https://api.twitch.tv/kraken/streams'
+onlySC2 = '?game=StarCraft+II'  # SC2を配信しているか
+isJapanese = '&language=ja'  # 日本語での配信
+limit = '&limit=5'  # 5人も同時に配信はしないでしょうという偏見
+client_id = ''  # twitchAPIのクライアントID
+utc_now = datetime.now(timezone('UTC'))
+jst_now = utc_now.astimezone(timezone('Asia/Tokyo'))
+now = jst_now.strftime('%m/%d %X')
+
+consumer_key = ''
+consumer_secret = ''
+access_token = ''
+access_token_secret = ''
+
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+
+api = tweepy.API(auth)
+
+res = urllib.request.urlopen(twitch_api + onlySC2 + limit + isJapanese + client_id)
+j = json.loads(res.read().decode('utf8'))
+while True:
+    if j['_total'] == 0:  # 該当配信が0の場合
+
+        api.update_status(str(now) + "\n" + "no one streaming. ")
+    else:  # 配信の数をカウント
+        total = j['_total']
+        list = []
+        for x in range(total):
+            name = j['streams'][x]['channel']['name']
+            url = j['streams'][x]['channel']['url']
+            line = name + ":" + url
+            list.append(line)
+            s = '\n'.join(list)
+        api.update_status(str(now) + "\n" + s)
+
+    time.sleep(3600)
+    # 同じツイートをすると怒られるので申し訳程度にnow()を添える
