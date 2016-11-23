@@ -7,20 +7,21 @@ import tweepy
 import time
 from datetime import datetime
 from pytz import timezone
+from os import environ
 
 twitch_api = 'https://api.twitch.tv/kraken/streams'
 onlySC2 = '?game=StarCraft+II'  # SC2を配信しているか
 isJapanese = '&language=ja'  # 日本語での配信
 limit = '&limit=5'  # 5人も同時に配信はしないでしょうという偏見
-client_id = ''  # twitchAPIのクライアントID
+client_id = environ['TWITCH_CLIENT_ID']  # twitchAPIのクライアントID
 utc_now = datetime.now(timezone('UTC'))
 jst_now = utc_now.astimezone(timezone('Asia/Tokyo'))
 now = jst_now.strftime('%m/%d %X')
 
-consumer_key = ''
-consumer_secret = ''
-access_token = ''
-access_token_secret = ''
+consumer_key = environ['TWITTER_CONSUMER_KEY']
+consumer_secret = environ['TWITTER_CONSUMER_SECRET']
+access_token = environ['TWITTER_ACCESS_TOKEN']
+access_token_secret = environ['TWITTER_ACCESS_TOKEN_SECRET']
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
