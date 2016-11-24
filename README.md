@@ -1,6 +1,6 @@
 # SC2JPStream
 Inspired by [Dota2 Watcher](https://github.com/Lillie251/Dota2watcher) by Lillie251  
-Almost Code Written by Miaha  
+Some Code Written by Miaha  
 
 ## 何これ
 twitchでStarCraft IIの日本語配信を行っているリンクを一時間おきにツイートするbot  
@@ -17,20 +17,20 @@ import tweepy
 import time
 from datetime import datetime
 from pytz import timezone
+from os import environ
 ```   
 twitter,twitchのアカウント
 
 ## 使い方
-1. 以下を各自用意したKeyで埋める  
+1. 環境変数に以下のKeyを設定する  
 2. ```$python twitch.py```で実行
 
 ```python
-client_id = 'twitchAPIのClient_ID'
-#以下四つはtwitterのAPIKey
-consumer_key = ''
-consumer_secret = ''
-access_token = ''
-access_token_secret = ''
+client_id = environ['TWITCH_CLIENT_ID']  
+consumer_key = environ['TWITTER_CONSUMER_KEY']
+consumer_secret = environ['TWITTER_CONSUMER_SECRET']
+access_token = environ['TWITTER_ACCESS_TOKEN']
+access_token_secret = environ['TWITTER_ACCESS_TOKEN_SECRET']
 ```
 
 ##その他
