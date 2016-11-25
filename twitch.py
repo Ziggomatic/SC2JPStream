@@ -28,9 +28,10 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
-res = urllib.request.urlopen(twitch_api + onlySC2 + limit + isJapanese + client_id)
-j = json.loads(res.read().decode('utf8'))
+
 while True:
+    res = urllib.request.urlopen(twitch_api + onlySC2 + limit + isJapanese + client_id)
+    j = json.loads(res.read().decode('utf8'))
     if j['_total'] == 0:  # 該当配信が0の場合
 
         api.update_status(str(now) + "\n" + "no one streaming. ")
