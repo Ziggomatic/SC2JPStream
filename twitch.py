@@ -27,24 +27,26 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 
+last_hour = datetime.now(timezone('Asia/Tokyo')).hour
 while True:
-    utc_now = datetime.now(timezone('UTC'))
-    jst_now = utc_now.astimezone(timezone('Asia/Tokyo'))
-    now = jst_now.strftime('%m/%d %X')
-    res = urllib.request.urlopen(twitch_api + onlySC2 + limit + isJapanese + client_id)
-    j = json.loads(res.read().decode('utf8'))
-    if j['_total'] == 0:  # 該当配信が0の場合
+    jst_now = datetime.now(timezone('Asia/Tokyo'))
+    if jst_now.hour != last_hour: # hourが変わるたびにツイートする
+        now = jst_now.strftime('%m/%d %X')
+        res = urllib.request.urlopen(twitch_api + onlySC2 + limit + isJapanese + client_id)
+        j = json.loads(res.read().decode('utf8'))
+        if j['_total'] == 0:  # 該当配信が0の場合
 
-        api.update_status(str(now) + "\n" + "no one streaming. ")
-    else:  # 配信の数をカウント
-        total = j['_total']
-        list = []
-        for x in range(total):
-            name = j['streams'][x]['channel']['name']
-            url = j['streams'][x]['channel']['url']
-            line = name + ":" + url
-            list.append(line)
-            s = '\n'.join(list)
-        api.update_status(str(now) + "\n" + s)
-    time.sleep(3600)
-    # 同じツイートをすると怒られるので申し訳程度にnow()を添える
+            api.update_status(str(now) + "\n" + "no one streaming. ")
+        else:  # 配信の数をカウント
+            total = j['_total']
+            list = []
+            for x in range(total):
+                name = j['streams'][x]['channel']['name']
+                url = j['streams'][x]['channel']['url']
+                line = name + ":" + url
+                list.append(line)
+                s = '\n'.join(list)
+            # 同じツイートをすると怒られるので申し訳程度にnow()を添える
+            api.update_status(str(now) + "\n" + s)
+    last_hour = jst_now.hour
+    time.sleep(600)
