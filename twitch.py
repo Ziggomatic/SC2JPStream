@@ -14,9 +14,7 @@ onlySC2 = '?game=StarCraft+II'  # SC2を配信しているか
 isJapanese = '&language=ja'  # 日本語での配信
 limit = '&limit=5'  # 5人も同時に配信はしないでしょうという偏見
 client_id = environ['TWITCH_CLIENT_ID']  # twitchAPIのクライアントID
-utc_now = datetime.now(timezone('UTC'))
-jst_now = utc_now.astimezone(timezone('Asia/Tokyo'))
-now = jst_now.strftime('%m/%d %X')
+
 
 consumer_key = environ['TWITTER_CONSUMER_KEY']
 consumer_secret = environ['TWITTER_CONSUMER_SECRET']
@@ -30,6 +28,9 @@ api = tweepy.API(auth)
 
 
 while True:
+    utc_now = datetime.now(timezone('UTC'))
+    jst_now = utc_now.astimezone(timezone('Asia/Tokyo'))
+    now = jst_now.strftime('%m/%d %X')
     res = urllib.request.urlopen(twitch_api + onlySC2 + limit + isJapanese + client_id)
     j = json.loads(res.read().decode('utf8'))
     if j['_total'] == 0:  # 該当配信が0の場合
@@ -45,6 +46,5 @@ while True:
             list.append(line)
             s = '\n'.join(list)
         api.update_status(str(now) + "\n" + s)
-
     time.sleep(3600)
     # 同じツイートをすると怒られるので申し訳程度にnow()を添える
