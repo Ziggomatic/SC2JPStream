@@ -40,3 +40,4 @@ access_token_secret = environ['TWITTER_ACCESS_TOKEN_SECRET']
 2. Herokuで動かしているのでAM4~AM10は動かない
 3. バグ報告,改善案など大募集中(他力本願)
 4. ~~デプロイする度にツイートするのでたまに連投する~~ **FIXED** 
+5. 他サービス(ニコ生,OPENREC)への対応:  **SOON** &trade;
