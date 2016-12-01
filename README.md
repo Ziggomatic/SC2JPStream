@@ -3,7 +3,7 @@ Inspired by [Dota2 Watcher](https://github.com/Lillie251/Dota2watcher) by Lillie
 Some Code Written by Miaha  
 
 ## 何これ
-twitchでStarCraft IIの日本語配信を行っているリンクを一時間おきにツイートするbot  
+twitch/ニコ生でStarCraft IIの日本語配信を行っているリンクを一時間おきにツイートするbot  
 [SJC](http://starcraft2.jpcommunity.com/sc2/)にいちいちアクセスして確認するのが面倒なので書いた
 ## 使ったもの
 Python 3.5.2  
@@ -40,4 +40,4 @@ access_token_secret = environ['TWITTER_ACCESS_TOKEN_SECRET']
 2. Herokuで動かしているのでAM4~AM10は動かない
 3. バグ報告,改善案など大募集中(他力本願)
 4. ~~デプロイする度にツイートするのでたまに連投する~~ **FIXED** 
-5. 他サービス(ニコ生,OPENREC)への対応:  **SOON** &trade;
+5. 他サービス(ニコ生,OPENREC)への対応:  **2016/12/02 ニコ生対応**
