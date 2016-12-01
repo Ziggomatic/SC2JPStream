@@ -1,1 +1,1 @@
-bot: python twitch.py
+bot: python app.py
