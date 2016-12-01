@@ -3,13 +3,14 @@
 import json
 from urllib.request import urlopen
 
-TAG = 'StarCraft2'
+QUERY = 'StarCraft2+OR+SC2'
+TARGETS = 'tags'
 
 # ニコ生配信を検索
 # (title, url)のタプル配列を返す
 def streams(limit=5):
     url = "http://api.search.nicovideo.jp/api/v2/live/contents/search"
-    url += "?q={}&targets=tags".format(TAG) # タグ
+    url += "?q={}&targets={}".format(QUERY, TARGETS) # クエリ
     url += "&filters[liveStatus][0]=onair" # 放送中のみ
     url += "&fields=contentId,title" # 欲しいデータ
     url += "&_sort=-startTime" # 開始時間でソート
