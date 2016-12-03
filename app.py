@@ -18,18 +18,25 @@ auth.set_access_token(access_token, access_token_secret)
 
 api = tweepy.API(auth)
 
+def shorten_url(url):
+    if url.startswith("http://"):
+        return url[7:]
+    if url.startswith("https://"):
+        return url[8:]
+    return url
+
 def post_twitch(now):
     streams = twitch.streams(limit=5)
     if len(streams) > 0:
         lines = [now.strftime('%m/%d %X'), '[Twitch]']
-        lines.extend("{}:{}".format(x[0], x[1]) for x in streams)
+        lines.extend("{}:{}".format(name, shorten_url(url)) for (name, url) in streams)
         api.update_status('\n'.join(lines))
 
 def post_nico(now):
     streams = nico.streams(limit=5)
     if len(streams) > 0:
         lines = [now.strftime('%m/%d %X'), '[ニコ生]']
-        lines.extend("{}:{}".format(x[0], x[1]) for x in streams)
+        lines.extend("{}:{}".format(title, shorten_url(url)) for (title, url) in streams)
         api.update_status('\n'.join(lines))
 
 # hourが変わるたびに投稿する
