@@ -36,13 +36,13 @@ def post(now, streams, header):
         api.update_status(s)
 
 def post_twitch(now):
-    post(now, twitch.streams(limit=5), '[Twitch]')
+    post(now, twitch.streams(limit=3), '[Twitch]')
 
 def post_nico(now):
-    post(now, nico.streams(limit=5), '[ニコ生]')
+    post(now, nico.streams(limit=2), '[ニコ生]')
 
 def post_openrec(now):
-    post(now, openrec.streams(limit=5), '[OPENREC]')
+    post(now, openrec.streams(limit=3), '[OPENREC]')
 
 # hourが変わるたびに投稿する
 last_hour = datetime.now(timezone('Asia/Tokyo')).hour
