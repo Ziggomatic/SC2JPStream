@@ -3,6 +3,7 @@
 import tweepy
 import twitch
 import nico
+import openrec
 from datetime import datetime
 from os import environ
 from pytz import timezone
@@ -25,19 +26,23 @@ def shorten_url(url):
         return url[8:]
     return url
 
-def post_twitch(now):
-    streams = twitch.streams(limit=5)
+def post(now, streams, header):
+    streams = list(streams)
     if len(streams) > 0:
-        lines = [now.strftime('%m/%d %X'), '[Twitch]']
-        lines.extend("{}:{}".format(name, shorten_url(url)) for (name, url) in streams)
-        api.update_status('\n'.join(lines))
+        lines = [now.strftime('%m/%d %X'), header]
+        lines.extend("{}:{}".format(label, shorten_url(url)) for (label, url) in streams)
+        s = '\n'.join(lines)
+        print(s)
+        api.update_status(s)
+
+def post_twitch(now):
+    post(now, twitch.streams(limit=3), '[Twitch]')
 
 def post_nico(now):
-    streams = nico.streams(limit=5)
-    if len(streams) > 0:
-        lines = [now.strftime('%m/%d %X'), '[ニコ生]']
-        lines.extend("{}:{}".format(title, shorten_url(url)) for (title, url) in streams)
-        api.update_status('\n'.join(lines))
+    post(now, nico.streams(limit=2), '[ニコ生]')
+
+def post_openrec(now):
+    post(now, openrec.streams(limit=3), '[OPENREC]')
 
 # hourが変わるたびに投稿する
 last_hour = datetime.now(timezone('Asia/Tokyo')).hour
@@ -46,5 +51,6 @@ while True:
     if now.hour != last_hour:
         post_twitch(now)
         post_nico(now)
+        post_openrec(now)
     last_hour = now.hour
     sleep(600)
