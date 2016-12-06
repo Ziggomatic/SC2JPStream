@@ -31,7 +31,9 @@ def post(now, streams, header):
     if len(streams) > 0:
         lines = [now.strftime('%m/%d %X'), header]
         lines.extend("{}:{}".format(label, shorten_url(url)) for (label, url) in streams)
-        api.update_status('\n'.join(lines))
+        s = '\n'.join(lines)
+        print(s)
+        api.update_status(s)
 
 def post_twitch(now):
     post(now, twitch.streams(limit=5), '[Twitch]')
