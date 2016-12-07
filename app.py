@@ -1,23 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import tweepy
 import twitch
+import twitter
 import nico
 import openrec
 from datetime import datetime
-from os import environ
 from pytz import timezone
 from time import sleep
-
-consumer_key = environ['TWITTER_CONSUMER_KEY']
-consumer_secret = environ['TWITTER_CONSUMER_SECRET']
-access_token = environ['TWITTER_ACCESS_TOKEN']
-access_token_secret = environ['TWITTER_ACCESS_TOKEN_SECRET']
-
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_token_secret)
-
-api = tweepy.API(auth)
 
 def shorten_url(url):
     if url.startswith("http://"):
@@ -32,8 +21,7 @@ def post(now, streams, header):
         lines = [now.strftime('%m/%d %X'), header]
         lines.extend("{}:{}".format(label, shorten_url(url)) for (label, url) in streams)
         s = '\n'.join(lines)
-        print(s)
-        api.update_status(s)
+        twitter.update_status(s)
 
 def post_twitch(now):
     post(now, twitch.streams(limit=3), '[Twitch]')
