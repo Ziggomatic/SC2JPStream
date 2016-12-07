@@ -8,19 +8,12 @@ from datetime import datetime
 from pytz import timezone
 from time import sleep
 
-def shorten_url(url):
-    if url.startswith("http://"):
-        return url[7:]
-    if url.startswith("https://"):
-        return url[8:]
-    return url
-
 def post(now, streams, header):
     streams = list(streams)
     if len(streams) <= 0:
         return
     lines = [now.strftime('%m/%d %X'), header]
-    lines.extend("{}:{}".format(label, shorten_url(url)) for (label, url) in streams)
+    lines.extend("{}:{}".format(label, url) for (label, url) in streams)
     twitter.update_status('\n'.join(lines))
 
 def post_twitch(now):
