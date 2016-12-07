@@ -9,21 +9,14 @@ from urllib.request import urlopen
 # Twitch配信を検索
 # (name, url)のタプルイテレータを返す
 def streams(game='StarCraft+II', language='ja', limit=5):
-    # client_id
-    try:
-        client_id = environ['TWITCH_CLIENT_ID']
-    except KeyError:
-        print("TWITCH_CLIENT_ID not found in environment variables", file=sys.stderr)
-        return
-
-    # urlopen
+    # url
     url = "https://api.twitch.tv/kraken/streams"
     url += "?game={}".format(game)
     url += "&language={}".format(language)
     url += "&limit={}".format(limit)
-    url += "&client_id={}".format(client_id)
+    url += "&client_id={}".format(environ['TWITCH_CLIENT_ID'])
 
-    # request
+    # urlopen
     try:
         res = urlopen(url)
     except HTTPError as e:
