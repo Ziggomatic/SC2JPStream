@@ -16,14 +16,14 @@ def streams(game='StarCraft+II', language='ja', limit=5):
         print("TWITCH_CLIENT_ID not found in environment variables", file=sys.stderr)
         return
 
-    # urlopen
+    # url
     url = "https://api.twitch.tv/kraken/streams"
     url += "?game={}".format(game)
     url += "&language={}".format(language)
     url += "&limit={}".format(limit)
     url += "&client_id={}".format(client_id)
 
-    # request
+    # urlopen
     try:
         res = urlopen(url)
     except HTTPError as e:
