@@ -17,11 +17,11 @@ def shorten_url(url):
 
 def post(now, streams, header):
     streams = list(streams)
-    if len(streams) > 0:
-        lines = [now.strftime('%m/%d %X'), header]
-        lines.extend("{}:{}".format(label, shorten_url(url)) for (label, url) in streams)
-        s = '\n'.join(lines)
-        twitter.update_status(s)
+    if len(streams) <= 0:
+        return
+    lines = [now.strftime('%m/%d %X'), header]
+    lines.extend("{}:{}".format(label, shorten_url(url)) for (label, url) in streams)
+    twitter.update_status('\n'.join(lines))
 
 def post_twitch(now):
     post(now, twitch.streams(limit=3), '[Twitch]')
