@@ -4,6 +4,8 @@ import twitch
 import twitter
 import nico
 import openrec
+import sys
+import traceback
 from datetime import datetime
 from pytz import timezone
 from time import sleep
@@ -30,8 +32,12 @@ last_hour = datetime.now(timezone('Asia/Tokyo')).hour
 while True:
     now = datetime.now(timezone('Asia/Tokyo'))
     if now.hour != last_hour:
-        post_twitch(now)
-        post_nico(now)
-        post_openrec(now)
+        try:
+            post_twitch(now)
+            post_nico(now)
+            post_openrec(now)
+        except Exception as e:
+            print("Unknown exception: {}".format(e), file=sys.stderr)
+            traceback.print_exc(file=sys.stderr)
     last_hour = now.hour
     sleep(600)
