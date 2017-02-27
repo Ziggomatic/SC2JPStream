@@ -29,7 +29,7 @@ def post_openrec(now):
     post_base(now, openrec.streams(limit=3), '[OPENREC]')
 
 def post_afreeca(now):
-    post_base(now, afreeca.streams(), '[AfreecaTV]')
+    post_base(now, afreeca.streams(limit=2), '[アフリカTV]')
 
 def post_safe(postfunc, now):
     try:
