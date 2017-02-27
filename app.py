@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import twitch
-import twitter
+import afreeca
 import nico
 import openrec
 import sys
 import traceback
+import twitch
+import twitter
 from datetime import datetime
 from pytz import timezone
 from time import sleep
@@ -27,6 +28,9 @@ def post_nico(now):
 def post_openrec(now):
     post(now, openrec.streams(limit=3), '[OPENREC]')
 
+def post_afreeca(now):
+    post(now, afreeca.streams(), '[AfreecaTV]')
+
 # hourが変わるたびに投稿する
 last_hour = datetime.now(timezone('Asia/Tokyo')).hour
 while True:
@@ -36,6 +40,7 @@ while True:
             post_twitch(now)
             post_nico(now)
             post_openrec(now)
+            post_afreeca(now)
         except Exception as e:
             print("Unknown exception: {}".format(e), file=sys.stderr)
             traceback.print_exc(file=sys.stderr)
