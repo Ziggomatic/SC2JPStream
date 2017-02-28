@@ -2,12 +2,12 @@
 
 import sys
 import tweepy
-from os import environ
+import linecache
 
-consumer_key = environ['TWITTER_CONSUMER_KEY']
-consumer_secret = environ['TWITTER_CONSUMER_SECRET']
-access_token = environ['TWITTER_ACCESS_TOKEN']
-access_token_secret = environ['TWITTER_ACCESS_TOKEN_SECRET']
+consumer_key = linecache.getline('TOKENS',1)
+consumer_secret = linecache.getline('TOKENS',2)
+access_token = linecache.getline('TOKENS',3)
+access_token_secret = linecache.getline('TOKENS',4)
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
