@@ -16,7 +16,7 @@ def post_base(now, streams, header):
     if len(streams) <= 0:
         return
     lines = [now.strftime('%m/%d %X'), header]
-    lines.extend("{}:{}".format(label, url) for (label, url) in streams)
+    lines.extend("{} {}".format(label, url) for (label, url) in streams)
     twitter.update_status('\n'.join(lines))
 
 def post_twitch(now):
