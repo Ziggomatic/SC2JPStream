@@ -19,10 +19,10 @@ def streams(query='starcraft', limit=5):
 
     # parse
     j = res.read().decode('utf8')
-    return islice(__parse(j), limit)
-
-def __parse(j):
     root = json.loads(j)
+    return islice(__parse_json(root), limit)
+
+def __parse_json(root):
     for x in root['channel']['glist']:
         if x["pwd"] == "1": # ignore private stream
             continue
