@@ -6,8 +6,8 @@ from itertools import islice
 from urllib.error import HTTPError
 from urllib.request import urlopen
 
-# Afreeca配信を検索
-# (title, url)のタプルイテレータを返す
+# アフリカTV配信を検索
+# (name, url)のタプルイテレータを返す
 def streams(query='starcraft', limit=5):
     # urlopen
     url = 'http://search.afreecatv.jp/app_search.php/?pt=sch_lives&q=' + query
@@ -26,10 +26,10 @@ def __parse(j):
     for x in root['channel']['glist']:
         if x["pwd"] == "1": # ignore private stream
             continue
-        title = x['title']
+        name = x['bnick']
         url = "http://live.afreecatv.jp/" + x['bid']
-        yield (title, url)
+        yield (name, url)
 
 if __name__ == '__main__':
-    for (title, url) in streams(query=''):
-        print("{}:{}".format(title, url))
+    for (name, url) in streams(query=''):
+        print("{}:{}".format(name, url))
