@@ -40,9 +40,9 @@ def __parse_dom(root):
         # streams
         if live is not None:
             ul = live.cssselect('ul.c-content__list')[0]
-            for li in ul.cssselect('li.c-content__list__popularlive'):
-                name = li.cssselect('a.c-content__list__popularlive__title__text__ellipsis__link')[0].text_content()
-                url = li.cssselect('a.c-content__list__popularlive__desc')[0].attrib['href']
+            for li in ul.cssselect('li.c-thumbnailVideo'):
+                name = li.cssselect('a.c-thumbnailVideo__header__text__ellipsis__link')[0].text_content()
+                url = li.cssselect('a.c-thumbnailVideo__box')[0].attrib['href']
                 yield (name, url)
     except Exception:
         print("openrec.__parse_dom failure", file=sys.stderr)
